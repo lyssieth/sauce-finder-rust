@@ -15,6 +15,10 @@ fn main() {
 
         if let Ok(m) = res {
             println!("{}", m);
+
+            if m.found.is_empty() {
+                println!("Found zero results.");
+            }
         } else if let Err(e) = res {
             println!("Error: {}", e)
         }
@@ -32,6 +36,10 @@ fn main_input() {
 
     if let Ok(m) = res {
         println!("{}", m);
+
+        if m.found.is_empty() {
+            println!("Found zero results.");
+        }
     } else if let Err(e) = res {
         println!("Error: {}", e);
     }
