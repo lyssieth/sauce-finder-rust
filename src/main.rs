@@ -12,6 +12,12 @@ fn main() {
         main_input()
     } else {
         let res = util::build_match(args[1].as_ref());
+
+        println!("Debug: {:#?}", res);
+
+        if let Ok(m) = res {
+            println!("std: {}", m);
+        }
     }
 }
 
@@ -23,4 +29,10 @@ fn main_input() {
         .unwrap();
 
     let res = util::build_match(args.as_ref());
+
+    println!("Debug: {:#?}", res);
+
+    if let Ok(m) = res {
+        println!("std: {}", m);
+    }
 }
