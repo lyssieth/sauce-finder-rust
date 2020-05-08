@@ -1,4 +1,5 @@
-use crate::iqdb::Matches;
+use crate::iqdb::{get_iqdb, Matches};
+use scraper::{Html, Selector};
 use std::error::Error;
 use std::fmt;
 
@@ -10,22 +11,34 @@ fn check_url(url: &str) -> bool {
 
 pub fn build_match(url: &str) -> Result<Matches, Box<dyn Error>> {
     if !check_url(url) {
-        return Err(Box::new(BuildError(format!("invalid url: {}", url))));
+        return Err(Box::new(MatchError(format!("invalid url: {}", url))));
+    }
+
+    let iqdb = get_iqdb(url);
+
+    println!("Debug {:#?}", iqdb);
+
+    if !iqdb.ok() {
+        return Err(Box::new(MatchError(format!(
+            "got error {} from iqdb: {}",
+            iqdb.status(),
+            iqdb.status_text()
+        ))));
     }
 
     Ok(Matches::default())
 }
 
 #[derive(Debug, Clone)]
-struct BuildError(String);
+struct MatchError(String);
 
-impl fmt::Display for BuildError {
+impl fmt::Display for MatchError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}", self.0)
+        write!(f, "error getting matches: {}", self.0)
     }
 }
 
-impl Error for BuildError {
+impl Error for MatchError {
     fn source(&self) -> Option<&(dyn Error + 'static)> {
         None
     }
