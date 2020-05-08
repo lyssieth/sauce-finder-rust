@@ -9,10 +9,30 @@ pub fn get_iqdb(url: &str) -> ureq::Response {
     ureq::post(url).send_json(data)
 }
 
-#[derive(SmartDefault, Debug)]
+#[derive(SmartDefault, Debug, Clone)]
 pub struct Matches<'a> {
     match_type: MatchType,
     found: Vec<Match<'a>>,
+}
+
+impl<'a> Matches<'a> {
+    pub fn string(&self) -> String {
+        let mut out = String::new();
+
+        out += (format!("Type is: {}", &self.match_type)).as_ref();
+
+        for x in &self.found {
+            out += (format!("{}", x)).as_ref();
+        }
+
+        out
+    }
+}
+
+impl<'a> fmt::Display for Matches<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), std::fmt::Error> {
+        write!(f, "{}", self.string())
+    }
 }
 
 #[derive(SmartDefault, Debug, Copy, Clone)]
