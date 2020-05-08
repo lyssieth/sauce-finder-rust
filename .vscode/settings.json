@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "repo",
         "deps",
-        "util"
+        "util",
+        "iqdb"
     ]
 }
