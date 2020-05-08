@@ -13,10 +13,10 @@ fn main() {
     } else {
         let res = util::build_match(args[1].as_ref());
 
-        println!("Debug: {:#?}", res);
-
         if let Ok(m) = res {
-            println!("std: {}", m);
+            println!("{}", m);
+        } else if let Err(e) = res {
+            println!("Error: {}", e)
         }
     }
 }
@@ -30,9 +30,9 @@ fn main_input() {
 
     let res = util::build_match(args.as_ref());
 
-    println!("Debug: {:#?}", res);
-
     if let Ok(m) = res {
-        println!("std: {}", m);
+        println!("{}", m);
+    } else if let Err(e) = res {
+        println!("Error: {}", e);
     }
 }

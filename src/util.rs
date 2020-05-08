@@ -65,7 +65,6 @@ pub fn build_match(url: &str) -> Result<Matches, Box<dyn Error>> {
 
         let mut item: Match = Match::default();
         let post_url = x.select(&Selectors::match_url()).next().unwrap();
-        println!("Post url done");
         item.link = post_url.value().attr("href").unwrap().to_string();
 
         item.img_link = get_direct_from_booru(post_url.value().attr("href").unwrap()).unwrap();
@@ -77,7 +76,6 @@ pub fn build_match(url: &str) -> Result<Matches, Box<dyn Error>> {
             .text()
             .collect::<Vec<_>>()
             .join("");
-        println!("Post data done");
         let post_data: Vec<&str> = post_data_bad.split(' ').collect();
         let size_data: Vec<&str> = post_data[0].split('×').collect();
         let size = MatchSize {
