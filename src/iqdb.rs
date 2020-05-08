@@ -1,66 +1,67 @@
-use serde_json::json;
+use serde_derive::{Deserialize, Serialize};
 use std::fmt;
 
 pub fn get_iqdb(url: &str) -> ureq::Response {
-    let data = json!({
-        "file": "(binary)",
-        "url": url
-    });
-    ureq::post(url).send_json(data)
+    ureq::post("https://danbooru.iqdb.org/").send_form(&[
+        ("file", ""),
+        ("url", url),
+        ("MAX_FILE_SIZE", "8388608"),
+    ])
 }
 
-#[derive(SmartDefault, Debug, Clone)]
-pub struct Matches<'a> {
-    match_type: MatchType,
-    found: Vec<Match<'a>>,
+#[derive(SmartDefault, Debug, Deserialize, Serialize)]
+pub struct Matches {
+    pub match_type: MatchType,
+    pub found: Vec<Match>,
 }
 
-impl<'a> Matches<'a> {
+impl Matches {
     pub fn string(&self) -> String {
         let mut out = String::new();
 
-        out += (format!("Type is: {}", &self.match_type)).as_ref();
+        out += (format!("Type is: {}\n", &self.match_type)).as_ref();
 
         for x in &self.found {
-            out += (format!("{}", x)).as_ref();
+            out += (format!("{}\n", x)).as_ref();
         }
 
         out
     }
 }
 
-impl<'a> fmt::Display for Matches<'a> {
+impl fmt::Display for Matches {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), std::fmt::Error> {
         write!(f, "{}", self.string())
     }
 }
 
-#[derive(SmartDefault, Debug, Copy, Clone)]
-pub struct Match<'a> {
-    link: &'a str,
-    similarity: &'a str,
-    rating: MatchRating,
-    size: MatchSize,
+#[derive(SmartDefault, Debug, Clone, Serialize, Deserialize)]
+pub struct Match {
+    pub link: String,
+    pub img_link: String,
+    pub similarity: isize,
+    pub rating: MatchRating,
+    pub size: MatchSize,
 }
 
-impl<'a> fmt::Display for Match<'a> {
+impl fmt::Display for Match {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "{}% similarity {} {} | {}",
-            self.similarity, self.rating, self.size, self.link
+            "{}% similarity {} {} | https:{} : {}",
+            self.similarity, self.rating, self.size, self.link, self.img_link
         )
     }
 }
 
-#[derive(SmartDefault, Debug, Copy, Clone)]
+#[derive(SmartDefault, Debug, Copy, Clone, Serialize, Deserialize)]
 pub struct MatchSize {
     #[default = 0]
-    width: usize,
+    pub width: usize,
     #[default = 0]
-    height: usize,
+    pub height: usize,
     #[default = 0]
-    bytes: usize,
+    pub bytes: usize,
 }
 
 impl fmt::Display for MatchSize {
@@ -75,7 +76,7 @@ impl fmt::Display for MatchSize {
     }
 }
 
-#[derive(SmartDefault, Debug, Copy, Clone)]
+#[derive(SmartDefault, Debug, Copy, Clone, Serialize, Deserialize)]
 pub enum MatchType {
     Possible,
     Definite,
@@ -111,7 +112,7 @@ impl fmt::Display for MatchType {
     }
 }
 
-#[derive(SmartDefault, Debug, Copy, Clone)]
+#[derive(SmartDefault, Debug, Copy, Clone, Serialize, Deserialize)]
 pub enum MatchRating {
     Safe,
     Questionable,
