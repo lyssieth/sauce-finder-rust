@@ -39,11 +39,19 @@ pub struct MatchSize {
     width: usize,
     #[default = 0]
     height: usize,
+    #[default = 0]
+    bytes: usize,
 }
 
 impl fmt::Display for MatchSize {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{}x{}", self.width, self.height)
+        write!(
+            f,
+            "{}x{} ({} KB)",
+            self.width,
+            self.height,
+            self.bytes / 1024
+        )
     }
 }
 
