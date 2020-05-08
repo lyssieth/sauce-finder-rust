@@ -1,4 +1,3 @@
-use serde_derive::{Deserialize, Serialize};
 use std::fmt;
 
 pub fn get_iqdb(url: &str) -> ureq::Response {
@@ -9,7 +8,7 @@ pub fn get_iqdb(url: &str) -> ureq::Response {
     ])
 }
 
-#[derive(SmartDefault, Debug, Deserialize, Serialize)]
+#[derive(SmartDefault, Debug)]
 pub struct Matches {
     pub match_type: MatchType,
     pub found: Vec<Match>,
@@ -35,7 +34,7 @@ impl fmt::Display for Matches {
     }
 }
 
-#[derive(SmartDefault, Debug, Clone, Serialize, Deserialize)]
+#[derive(SmartDefault, Debug, Clone)]
 pub struct Match {
     pub link: String,
     pub img_link: String,
@@ -54,7 +53,7 @@ impl fmt::Display for Match {
     }
 }
 
-#[derive(SmartDefault, Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(SmartDefault, Debug, Copy, Clone)]
 pub struct MatchSize {
     #[default = 0]
     pub width: usize,
@@ -76,7 +75,7 @@ impl fmt::Display for MatchSize {
     }
 }
 
-#[derive(SmartDefault, Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(SmartDefault, Debug, Copy, Clone)]
 pub enum MatchType {
     Possible,
     Definite,
@@ -112,7 +111,7 @@ impl fmt::Display for MatchType {
     }
 }
 
-#[derive(SmartDefault, Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(SmartDefault, Debug, Copy, Clone)]
 pub enum MatchRating {
     Safe,
     Questionable,
