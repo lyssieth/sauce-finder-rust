@@ -1,8 +1,9 @@
 # List of things left to do
 
-* [ ] Commandline
-  * [ ] Actions on images
-    * [ ] Downloading of images
-    * [ ] Opening in browser
-  * [ ] Verbose mode
-* [ ] Prettifying & general fixes
+* [x] Commandline
+  * [x] Actions on images
+    * [x] Downloading of images
+    * [x] Opening in browser
+  * [x] Verbose mode
+  * [x] Export as JSON to cmdline
+* [x] [PROBABLY DONE] Prettifying & general fixes

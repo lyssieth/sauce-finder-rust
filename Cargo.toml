@@ -1,18 +1,25 @@
 [package]
 name = "sauce-finder-rust"
-version = "0.9.0"
+version = "1.0.0"
 authors = ["Rax Ixor <raxixor@rax.ee>"]
-description = """It should be a Rust version of sauce-finder (located at https://gitlab.com/miicat/sauce-finder/)."""
+description = """It should be a Rust version of Miicat's sauce-finder (located at https://gitlab.com/miicat/sauce-finder/)."""
 edition = "2018"
 
 [profile.release]
 opt-level = "z"
-
-[profile.dev.package."*"]
-opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
 
 [dependencies]
 ureq = "1.0"
-dialoguer = "0.6"
 smart-default = "0.6"
 scraper = "0.12"
+clap = "3.0.0-beta.1"
+webbrowser = "0.5"
+dialoguer = "0.6"
+regex = "1.3"
+url = "2.1"
+serde_json = "1.0"
+serde = "1.0"
+serde_derive = "1.0"
