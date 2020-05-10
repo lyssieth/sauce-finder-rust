@@ -21,13 +21,12 @@ pub fn get_direct_from_booru(url: &str) -> Result<String, Box<dyn Error>> {
     }
     let html = Html::parse_document(res.into_string().unwrap().as_ref());
 
-    let img = html
-        .select(&Selector::parse("#image").unwrap())
-        .next()
-        .unwrap()
-        .value();
+    let img = html.select(&Selector::parse("#image").unwrap()).next();
 
-    Ok(img.attr("src").unwrap().to_string())
+    if let Some(i) = img {
+        return Ok(i.value().attr("src").unwrap().to_string());
+    }
+    Ok("N/A".to_string())
 }
 
 pub fn build_match(url: &str) -> Result<Matches, Box<dyn Error>> {
@@ -111,9 +110,12 @@ pub fn build_match(url: &str) -> Result<Matches, Box<dyn Error>> {
 
 pub fn get_size(url: &str) -> usize {
     let h = ureq::head(get_direct_from_booru(url).unwrap().as_ref()).call();
-    let length = h.header("content-length").unwrap();
+    let length = h.header("content-length");
 
-    length.parse().unwrap()
+    if let Some(l) = length {
+        return l.parse().unwrap();
+    }
+    0usize
 }
 
 #[derive(Debug, Clone)]
