@@ -54,7 +54,7 @@ impl fmt::Display for Match {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(
             f,
-            "{}% similarity {} {} | https:{} : {}",
+            "{}% similarity {} {} | {} : {}",
             self.similarity, self.rating, self.size, self.link, self.img_link
         )
     }
