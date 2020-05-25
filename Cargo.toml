@@ -12,7 +12,7 @@ codegen-units = 1
 panic = "abort"
 
 [dependencies]
-ureq = "1.0"
+ureq = "1.1"
 smart-default = "0.6"
 scraper = "0.12"
 clap = "3.0.0-beta.1"
